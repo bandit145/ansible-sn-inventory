@@ -92,25 +92,14 @@ Comma seperated string providing ability to define selection preference order. T
 
     export SN_SEL_ORDER='host_name,fqdn,ip_address'
 
-**`SN_CACHE_DIR`** (optional)
-
-Path to directory which will be used to store inventory cache (will be created if path does not exist, path is relative to script if not explicit). If not defined caching will be disabled.
-
-    export SN_CACHE_DIR='.cache/ansible'
-
-**`SN_CACHE_MAX_AGE`** (optional)
-
-Maximum age in seconds of the cache before it will be refreshed with data from the ServiceNow instance CMDB. If not defined will default to 0 (always stale).
-
-    export SN_CACHE_MAX_AGE=3600
-
 **`SN_PROXY`** (optional)
 
 Proxy server to use for requests to ServiceNow. This setting may also be defined with the SN_PROXY environment variable. If not defined no proxy will be used.
 
     export SN_PROXY='http://myproxy.mydomain.com:8080'
 
-
+**SN_TOWER** (optional)
+Signal that this is a custom script in tower and not to create/make files
 
 # Example
 

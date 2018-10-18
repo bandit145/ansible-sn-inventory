@@ -42,6 +42,12 @@ from six.moves import configparser
 import time
 from cookielib import LWPCookieJar
 
+try:
+    SN_TOWER = bool(os.environ.get('SN_TOWER'))
+except ValueError:
+    print('SN_TOWER needs to be a boolean',file=sys.stderr)
+    sys.exit(2)
+
 
 class NowInventory(object):
     def __init__(
@@ -139,9 +145,10 @@ class NowInventory(object):
     def _invoke(self, verb, path, data):
 
         cache_name = '__snow_inventory__'
-        inventory = self._get_cache(cache_name, None)
-        if inventory is not None:
-            return inventory
+        if not SN_TOWER:
+            inventory = self._get_cache(cache_name, None)
+            if inventory is not None:
+                return inventory
 
         # build url
         url = "https://%s/%s" % (self.hostname, path)
@@ -154,7 +161,8 @@ class NowInventory(object):
             print >> sys.stderr, "http error (%s): %s" % (response.status_code,
                                                           response.text)
 
-        self._put_cache(cache_name, response.json())
+        if not SN_TOWER:
+            self._put_cache(cache_name, response.json())
         return response.json()
 
     def add_group(self, target, group):
